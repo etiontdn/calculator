@@ -23,9 +23,9 @@ function operate () {
   operator = expression.match(/[*/]/g);
   if (operator != null) {
     for (let operation of operator) {
-      let actualExpression = expression.match("\\-?\\d+\["+operation+"]-?\\d+")[0];
+      let actualExpression = expression.match("\\-?\\d+\["+operation+"]\\d+")[0];
       let n1 = Number(actualExpression.match(/-?\d+/));
-      let n2 = Number(actualExpression.match(/-?\d+$/));
+      let n2 = Number(actualExpression.match(/\d+$/));
       expression = expression.replace(actualExpression,
          operations[operation](n1, n2));
     }
@@ -34,9 +34,9 @@ function operate () {
   operator = expression.match(/[+\-]/g);
   if (operator != null) {
     for (let operation of operator) {
-      let actualExpression = expression.match("\\-?\\d+\["+operation+"]-?\\d+")[0];
+      let actualExpression = expression.match("\\-?\\d+\["+operation+"]\\d+")[0];
       let n1 = Number(actualExpression.match(/-?\d+/));
-      let n2 = Number(actualExpression.match(/-?\d+$/));
+      let n2 = Number(actualExpression.match(/\d+$/));
       expression = expression.replace(actualExpression,
          operations[operation](n1, n2));
     }
