@@ -1,4 +1,5 @@
 const screen = document.querySelector(".screen > .input > .content");
+const answer = document.querySelector(".screen > .input > .answer");
 
 const operations = {"+": (n1, n2) => n1+n2,
     "-": (n1, n2) => n1-n2,
@@ -16,26 +17,36 @@ function operate () {
   if (expression[0] == "-") {
     expression = "0" + expression;
   }
-  let operator = expression.match(/[*/]/g);
-  for (let operation of operator) {
-    let actualExpression = expression.match("\\-?\\d+\["+operation+"]\\d+")[0];
-    let n1 = Number(actualExpression.match(/-?\d+/));
-    let n2 = Number(actualExpression.match(/\d+$/));
-    expression = expression.replace(actualExpression,
-       operations[operation](n1, n2));
+  if (expression.slice(-1).search(/\d+/)) {
+    expression = expression.slice(0,-1);
+  }
+  operator = expression.match(/[*/]/g);
+  if (operator != null) {
+    for (let operation of operator) {
+      let actualExpression = expression.match("\\-?\\d+\["+operation+"]-?\\d+")[0];
+      let n1 = Number(actualExpression.match(/-?\d+/));
+      let n2 = Number(actualExpression.match(/-?\d+$/));
+      expression = expression.replace(actualExpression,
+         operations[operation](n1, n2));
+    }
   }
 
   operator = expression.match(/[+\-]/g);
-  for (let operation of operator) {
-    let actualExpression = expression.match("\\-?\\d+\["+operation+"]\\d+")[0];
-    let n1 = Number(actualExpression.match(/-?\d+/));
-    let n2 = Number(actualExpression.match(/\d+$/));
-    expression = expression.replace(actualExpression,
-       operations[operation](n1, n2));
+  if (operator != null) {
+    for (let operation of operator) {
+      let actualExpression = expression.match("\\-?\\d+\["+operation+"]-?\\d+")[0];
+      let n1 = Number(actualExpression.match(/-?\d+/));
+      let n2 = Number(actualExpression.match(/-?\d+$/));
+      expression = expression.replace(actualExpression,
+         operations[operation](n1, n2));
+    }
   }
-  screen.textContent = expression;
+  answer.textContent = expression;
 }
 
+function changeScreen () {
+  screen.textContent = answer.textContent;
+}
 
 
 
@@ -53,9 +64,10 @@ for (let button of document.querySelectorAll(".button")) {
         screen.textContent += button_value;
       }
     } else if (button_value.trim() == "=") {
-      operate();
+      changeScreen();
     } else {
       screen.textContent += button_value;
     }
+    operate();
   });
 }

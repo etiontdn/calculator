@@ -72,8 +72,18 @@
   border: 2px solid #dfe1e5;
   padding: 15px;
   justify-content: flex-end;
+  align-items: flex-end;
+  flex-direction: column;
   font-size: 28px;
   overflow: hidden;
   white-space: nowrap;
   user-select: text;
+}
+
+.content, .answer {
+  display: flex;
+}
+
+.answer {
+  font-size: 12px;
 }
